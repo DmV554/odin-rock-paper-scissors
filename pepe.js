@@ -13,68 +13,129 @@ function getComputerChoice() {
     }
 }
 
-
-function getHumanChoice() {
-   const choice = prompt("Seleccione 'piedra', 'papel' o 'tijera'").toLowerCase();
-
-   if (choice !== "piedra" && choice !== "papel" && choice !== "tijera") {
-    return null;
-   }
-
-   return choice
-
-}
-
 function playRound(humanChoice, computerChoice) {
-    console.log(humanChoice)
-    console.log(computerChoice)
+    //console.log(humanChoice)
+    //console.log(computerChoice)
+
+    const contChoices = document.querySelector(".choices")
+    contChoices.replaceChildren()
+
+    const humanChoiceDom = document.createElement("div")
+    humanChoiceDom.textContent = `Jugador escogió: ${humanChoice}`
+    contChoices.appendChild(humanChoiceDom) 
+
+    const computerChoiceDom = document.createElement("div")
+    computerChoiceDom.textContent = `Máquina escogió: ${computerChoice}`
+    contChoices.appendChild(computerChoiceDom) 
+
+    const resultados = document.querySelector(".resultados")
+    resultados.replaceChildren();
+
+    const contWinner = document.querySelector(".ganador")
+    if (contWinner.firstChild) { 
+        contWinner.removeChild(contWinner.firstChild); 
+    }
 
     if(humanChoice === computerChoice) {
-        console.log("Empate")
-        return 
+        const empate = document.createElement("div");
+        empate.textContent = "Empate";
+        resultados.appendChild(empate)
+        //console.log("Empate")
     }
 
     if(humanChoice != computerChoice) {
         if(humanChoice === "piedra" && computerChoice === "tijera") {
-            console.log("Ganaste")
+            const ganador = document.createElement("div")
+            ganador.textContent = "Ganaste"
+            resultados.appendChild(ganador)
+            //console.log("Ganaste")
             userScore += 10
         } else if(humanChoice === "piedra" && computerChoice === "papel") {
-            console.log("Perdiste")
+            const perdedor = document.createElement("div")
+            perdedor.textContent = "Perdiste"
+            resultados.appendChild(perdedor)
+           // console.log("Perdiste")
             computerScore += 10
         } else if(humanChoice === "papel" && computerChoice === "piedra") {
-            console.log("Ganaste")
+            const ganador = document.createElement("div")
+            ganador.textContent = "Ganaste"
+            resultados.appendChild(ganador)
+
+            //console.log("Ganaste")
             userScore += 10
         } else if(humanChoice === "papel" && computerChoice === "tijera") {
-            console.log("Perdiste")
+            const perdedor = document.createElement("div")
+            perdedor.textContent = "Perdiste"
+            resultados.appendChild(perdedor)
+            //console.log("Perdiste")
             computerScore += 10
         } else if(humanChoice === "tijera" && computerChoice === "papel") {
-            console.log("Ganaste")
+            const ganador = document.createElement("div")
+            ganador.textContent = "Ganaste"
+            resultados.appendChild(ganador)
+
+            //console.log("Ganaste")
             userScore += 10
         } else if(humanChoice === "tijera" && computerChoice === "piedra") {
-            console.log("Perdiste")
+            const perdedor = document.createElement("div")
+            perdedor.textContent = "Perdiste"
+            resultados.appendChild(perdedor)
+            //console.log("Perdiste")
             computerScore += 10
 
         }
     }
 
-}
 
 
-function playGame() {
-    for(i=0; i<5; i++) {
-        const humanSelection = getHumanChoice();
+    const contPoints = document.querySelector(".puntos")
+    contPoints.replaceChildren()
 
-        if(humanSelection === null) {
-            console.log("Elección invalida");
-            return
-        }
-        const computerSelection = getComputerChoice();
+    const userScoreDom = document.createElement("div")
+    userScoreDom.textContent = `Puntos usuario: ${userScore}`
+    contPoints.appendChild(userScoreDom)
 
-        playRound(humanSelection, computerSelection);
+    const computerScoreDom = document.createElement("div")
+    computerScoreDom.textContent = `Puntos computadora: ${computerScore}`
+    contPoints.appendChild(computerScoreDom)
 
-        console.log(`Puntos usuario: ${userScore}`)
-        console.log(`Puntos computadora: ${computerScore}`)
+    
+    if(userScore === 50) {
+        const winner = document.createElement("div")
+        winner.textContent = `El ganador es: Jugador`
+        contWinner.appendChild(winner)
+
+        userScore = 0
+        computerScore = 0
     }
+
+    if(computerScore === 50) {
+        const winner = document.createElement("div")
+        winner.textContent = `El ganador es: Máquina`
+        contWinner.appendChild(winner)
+
+        
+        userScore = 0
+        computerScore = 0
+    }
+
+
 }
 
-playGame()
+
+const btnPiedra = document.querySelector(".piedra")
+const btnPapel = document.querySelector(".papel")
+const btnTijera = document.querySelector(".tijera")
+
+btnPiedra.addEventListener("click", () => {
+    playRound("piedra", getComputerChoice())
+})
+
+btnPapel.addEventListener("click", () => {
+    playRound("papel", getComputerChoice())
+})
+
+btnTijera.addEventListener("click", () => {
+    playRound("tijera", getComputerChoice())
+})
+
